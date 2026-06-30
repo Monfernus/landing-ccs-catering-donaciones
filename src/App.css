@@ -1,11 +1,10 @@
 .page {
   position: relative;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-rows: auto 1fr auto;
   padding: clamp(1.25rem, 3vh, 2rem) clamp(1.25rem, 5vw, 4rem);
-  overflow: hidden;
   isolation: isolate;
 }
 
@@ -307,11 +306,13 @@
 /* Móvil: permitir scroll natural, sin altura fija */
 @media (max-width: 768px) {
   .page {
-    height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow: visible;
     padding: 1.5rem 1.25rem 2rem;
+  }
+  .brand {
+    justify-content: center;
+  }
+  .logo {
+    height: clamp(48px, 9vw, 64px);
   }
   .content {
     padding: 2rem 0 1.5rem;
@@ -329,16 +330,23 @@
     margin-top: 2rem;
   }
   .meta {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 1.25rem;
     margin-top: 2rem;
     padding-top: 1.5rem;
+  }
+  .meta-item {
+    align-items: center;
   }
   .divider {
     display: none;
   }
   .footer {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     padding-top: 1.5rem;
   }
 }
