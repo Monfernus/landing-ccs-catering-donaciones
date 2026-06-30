@@ -40,4 +40,13 @@ body,
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-y;
 }
