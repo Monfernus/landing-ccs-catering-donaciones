@@ -1,0 +1,43 @@
+:root {
+  /* Brand colors — manual de marca CCS.Catering */
+  --brand-black: #000000;
+  --brand-white: #ffffff;
+  --brand-green: #69bd69;
+  --brand-green-soft: rgba(105, 189, 105, 0.18);
+  --brand-green-hover: #58a758;
+
+  --background: #000000;
+  --surface: #0a0a0a;
+  --foreground: #ffffff;
+  --muted-foreground: #b8b8b8;
+  --subtle-foreground: #7a7a7a;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --radius: 0.5rem;
+
+  /* Tipografía — equivalentes web de Knockout / Editorial New / DIN 2014 Narrow */
+  --font-display: "Oswald", "Knockout", "Bebas Neue", system-ui, sans-serif;
+  --font-italic: "Fraunces", "Editorial New", Georgia, serif;
+  --font-text: "Barlow Condensed", "DIN 2014 Narrow", "DIN Pro Condensed",
+    system-ui, sans-serif;
+  --font-sans: var(--font-text);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--font-text);
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
