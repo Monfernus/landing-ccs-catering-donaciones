@@ -43,3 +43,9 @@ supabase/.temp
 
 # Docs
 docs
+
+.mcp.json
+
+.claude/
+
+supabase/

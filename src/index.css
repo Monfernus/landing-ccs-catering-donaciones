@@ -15,6 +15,14 @@
   --border-strong: rgba(255, 255, 255, 0.22);
   --radius: 0.5rem;
 
+  /* Fondo "papel" cálido para secciones claras (blanco es color de marca) */
+  --paper: #f4f1ea;
+  --paper-2: #ece7dc;
+  --ink: #111111;
+  --ink-soft: #4a4844;
+  --ink-faint: #8a877f;
+  --paper-border: rgba(17, 17, 17, 0.12);
+
   /* Tipografía — equivalentes web de Knockout / Editorial New / DIN 2014 Narrow */
   --font-display: "Oswald", "Knockout", "Bebas Neue", system-ui, sans-serif;
   --font-italic: "Fraunces", "Editorial New", Georgia, serif;
@@ -47,6 +55,7 @@ body,
 html,
 body {
   overflow-x: hidden;
-  overscroll-behavior: none;
-  touch-action: pan-y;
+}
+body {
+  overscroll-behavior-x: none;
 }
