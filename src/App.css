@@ -992,12 +992,17 @@ main {
 }
 .faq__a {
   overflow: hidden;
-  margin: 0;
   font-family: var(--font-text);
   font-size: 1.08rem;
   line-height: 1.55;
   color: var(--ink-soft);
   max-width: 66ch;
+}
+.faq__a p {
+  margin: 0;
+}
+.faq__a p + p {
+  margin-top: 0.9rem;
 }
 .faq--open .faq__a {
   padding-bottom: 1.5rem;
@@ -1036,10 +1041,15 @@ main {
   font-family: var(--font-display);
   font-weight: 600;
   text-transform: uppercase;
-  line-height: 0.98;
+  line-height: 1.24;
   letter-spacing: -0.01em;
   font-size: clamp(2.2rem, 6vw, 4.3rem);
-  margin: 0 0 1.6rem;
+  margin: 0 0 2.2rem;
+  /* Cada línea se centra horizontalmente sobre el mismo eje,
+     sin importar su ancho. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .cierre__title-line {
   white-space: nowrap;
@@ -1350,5 +1360,6 @@ main {
   .hero__scroll { display: none; }
   .cta { width: 100%; justify-content: center; }
   .d-desk { display: none; }
+  .cierre__title { width: auto; max-width: 100%; }
   .cierre__title-line { white-space: normal; }
 }

@@ -73,30 +73,45 @@ export const FORMAS = [
   },
 ]
 
+// `a` es un arreglo de párrafos; cada elemento se pinta como un <p> aparte.
 export const FAQS = [
   {
     q: '¿Qué tipo de donaciones reciben?',
-    a: 'Dinero, alimentos, agua, empaques y otros insumos previamente coordinados.',
+    a: [
+      'Recibimos principalmente aportes monetarios, alimentos, agua, empaques para comida y otros insumos previamente coordinados.',
+      'Nuestras necesidades pueden cambiar día a día según la operación, por eso te invitamos a seguirnos en redes sociales (@caracascatering) donde compartimos con mayor detalle los artículos que estamos necesitando en cada momento.',
+    ],
   },
   {
     q: '¿Puedo llevar una donación directamente?',
-    a: 'Sí, pero necesitamos coordinarla previamente para confirmar las necesidades de la operación, el horario y nuestra capacidad de recepción. Recibimos donaciones en nuestra sede de Los Ruices, Caracas, de 8:00 a. m. a 6:00 p. m. ¡Escríbenos y coordinemos la entrega!',
+    a: [
+      'Sí. Cada día compartimos en nuestras historias de Instagram las necesidades de la operación de acuerdo con los requerimientos nutricionales definidos en nuestros menús.',
+      'Recibimos donaciones en nuestra sede de Los Ruices en Caracas de 8:00 a. m. a 5:00 p. m. ¡Escríbenos antes de acercarte para coordinar la entrega y asegurarnos de recibir tu aporte de la mejor manera!',
+    ],
   },
   {
     q: '¿Cómo se utilizan las donaciones monetarias?',
-    a: 'Se destinan a compras y gastos directamente vinculados con la producción y distribución de ayuda.',
+    a: [
+      'Se destinan a compras y gastos directamente vinculados con la producción y distribución de Comidas con Propósito.',
+    ],
   },
   {
     q: '¿Puedo donar desde otro país?',
-    a: 'Sí. Recibimos aportes en bolívares a través de nuestra cuenta en Bancamiga y donaciones en divisas mediante transferencias bancarias o Zelle a nuestras cuentas en Estados Unidos. Escríbenos para compartirte los datos correspondientes.',
+    a: [
+      'Sí. Recibimos aportes en bolívares a través de nuestra cuenta en Bancamiga y donaciones en divisas mediante transferencias bancarias o Zelle a nuestras cuentas en Estados Unidos. Escríbenos para compartirte los datos correspondientes.',
+    ],
   },
   {
     q: '¿Cómo puedo saber qué ocurrió con mi aporte?',
-    a: 'A través de la confirmación del equipo y de nuestro portal público.',
+    a: [
+      'Puedes seguirnos en nuestras redes sociales (@caracascatering) para conocer el alcance diario de la operación. Allí compartimos información actualizada sobre las entregas realizadas, las necesidades vigentes y el impacto de los aportes que nos permiten seguir acompañando a quienes más lo necesitan.',
+    ],
   },
   {
     q: '¿Ustedes entregan directamente en las zonas afectadas?',
-    a: 'La distribución se coordina con aliados y actores que trabajan en el terreno.',
+    a: [
+      'En algunos casos realizamos entregas directamente y, en otros, coordinamos con aliados y actores que ya están trabajando en terreno. Esto nos permite llegar de forma más organizada, segura y efectiva a las personas y comunidades que necesitan apoyo.',
+    ],
   },
 ]
 

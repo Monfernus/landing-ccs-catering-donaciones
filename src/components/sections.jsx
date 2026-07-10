@@ -20,7 +20,7 @@ import {
   ordenarPorProximidad,
 } from '../hooks'
 import { IMPACTO, BENEFICIARIOS, PASOS, FAQS, GALERIA_CARRUSEL } from '../data'
-import { waLink, igLink, HERO_VIDEO, STORAGE_GALERIA } from '../config'
+import { waLink, igLink, IG_ALIADOS, HERO_VIDEO, STORAGE_GALERIA } from '../config'
 
 const pinIcon = L.divIcon({
   className: 'map-pin-icon',
@@ -143,14 +143,26 @@ export function Operacion() {
           <div className="allies__viewport">
             <div className="allies__row">
               <div className="allies__group">
-                <img className="ally-logo ally-logo--ccs" src={logoCaracasCatering} alt="Caracas Catering" />
-                <img className="ally-logo ally-logo--laga" src={logoLaga} alt="LAGA" />
-                <img className="ally-logo ally-logo--bocu" src={logoBocu} alt="BOCU" />
+                <a href={IG_ALIADOS.caracas} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Caracas Catering">
+                  <img className="ally-logo ally-logo--ccs" src={logoCaracasCatering} alt="Caracas Catering" />
+                </a>
+                <a href={IG_ALIADOS.laga} target="_blank" rel="noopener noreferrer" aria-label="Instagram de LAGA">
+                  <img className="ally-logo ally-logo--laga" src={logoLaga} alt="LAGA" />
+                </a>
+                <a href={IG_ALIADOS.bocu} target="_blank" rel="noopener noreferrer" aria-label="Instagram de BOCU">
+                  <img className="ally-logo ally-logo--bocu" src={logoBocu} alt="BOCU" />
+                </a>
               </div>
               <div className="allies__group" aria-hidden="true">
-                <img className="ally-logo ally-logo--ccs" src={logoCaracasCatering} alt="" />
-                <img className="ally-logo ally-logo--laga" src={logoLaga} alt="" />
-                <img className="ally-logo ally-logo--bocu" src={logoBocu} alt="" />
+                <a href={IG_ALIADOS.caracas} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
+                  <img className="ally-logo ally-logo--ccs" src={logoCaracasCatering} alt="" />
+                </a>
+                <a href={IG_ALIADOS.laga} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
+                  <img className="ally-logo ally-logo--laga" src={logoLaga} alt="" />
+                </a>
+                <a href={IG_ALIADOS.bocu} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
+                  <img className="ally-logo ally-logo--bocu" src={logoBocu} alt="" />
+                </a>
               </div>
             </div>
           </div>
@@ -430,7 +442,11 @@ function FaqItem({ q, a, open, onToggle }) {
         <span className="faq__icon" aria-hidden="true" />
       </button>
       <div className="faq__a-wrap">
-        <p className="faq__a">{a}</p>
+        <div className="faq__a">
+          {(Array.isArray(a) ? a : [a]).map((parrafo, i) => (
+            <p key={i}>{parrafo}</p>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -480,9 +496,9 @@ export function Cierre() {
       <div ref={ref} className={`wrap reveal ${shown ? 'is-in' : ''}`}>
         <p className="cierre__kicker">Comidas con propósito</p>
         <h2 className="cierre__title">
-          <span className="cierre__title-line">Tu ayuda puede convertirse en la</span>{' '}
-          próxima comida que llegue a <br />
-          <span className="cierre__title-em">quien más lo necesita.</span>
+          <span className="cierre__title-line">Tu ayuda puede convertirse en la</span>
+          <span className="cierre__title-line">próxima comida que llegue a</span>
+          <span className="cierre__title-line cierre__title-em">quien más lo necesita.</span>
         </h2>
         <p className="cierre__copy">
           Cada aporte, sin importar su tamaño, se suma a una operación organizada para
@@ -525,7 +541,9 @@ export function Footer() {
   return (
     <footer className="footer" id="contacto">
       <div className="footer__top">
-        <img className="footer__logo" src={logoWhite} alt="Caracas Catering" />
+        <a href={IG_ALIADOS.caracas} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Caracas Catering">
+          <img className="footer__logo" src={logoWhite} alt="Caracas Catering" />
+        </a>
 
         <p className="footer__tag">
           <span>
@@ -535,9 +553,15 @@ export function Footer() {
         </p>
 
         <div className="footer__allies">
-          <img className="ally-logo ally-logo--ccs" src={logoCaracasCateringWhite} alt="Comidas con propósito" />
-          <img className="ally-logo ally-logo--laga" src={logoLagaWhite} alt="LAGA" />
-          <img className="ally-logo ally-logo--bocu" src={logoBocuWhite} alt="BOCU" />
+          <a href={IG_ALIADOS.caracas} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Caracas Catering">
+            <img className="ally-logo ally-logo--ccs" src={logoCaracasCateringWhite} alt="Comidas con propósito" />
+          </a>
+          <a href={IG_ALIADOS.laga} target="_blank" rel="noopener noreferrer" aria-label="Instagram de LAGA">
+            <img className="ally-logo ally-logo--laga" src={logoLagaWhite} alt="LAGA" />
+          </a>
+          <a href={IG_ALIADOS.bocu} target="_blank" rel="noopener noreferrer" aria-label="Instagram de BOCU">
+            <img className="ally-logo ally-logo--bocu" src={logoBocuWhite} alt="BOCU" />
+          </a>
         </div>
 
         <div className="footer__links">

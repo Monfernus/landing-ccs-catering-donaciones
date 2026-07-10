@@ -152,20 +152,10 @@ export function useMapaDestinos() {
   return data
 }
 
-function haversineKm(a, b) {
-  const R = 6371
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180
-  const dLng = ((b.lng - a.lng) * Math.PI) / 180
-  const lat1 = (a.lat * Math.PI) / 180
-  const lat2 = (b.lat * Math.PI) / 180
-  const h =
-    Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2
-  return 2 * R * Math.asin(Math.sqrt(h))
-}
-
-// Agrupa destinos por `zona` y ordena cada grupo con un recorrido de vecino
-// más cercano, para que el recorrido del mapa nunca salte de una ciudad a
-// otra y vuelva. `zonaInicial` decide qué grupo se recorre primero.
+// Agrupa destinos por `zona` y recorre cada grupo de oeste a este (izquierda a
+// derecha en el mapa), para que el trazo nunca salte de una ciudad a otra y
+// vuelva. `zonaInicial` decide qué grupo se recorre primero; dentro de cada
+// grupo el arranque es el punto más al oeste (menor longitud).
 export function ordenarPorProximidad(destinos, zonaInicial) {
   if (!destinos.length) return destinos
 
@@ -176,24 +166,7 @@ export function ordenarPorProximidad(destinos, zonaInicial) {
     return 0
   })
 
-  const ordenado = []
-  let last = null
-
-  zonas.forEach((zona) => {
-    const restante = puntos.filter((d) => d.zona === zona)
-
-    if (last) restante.sort((a, b) => haversineKm(last, a) - haversineKm(last, b))
-    let actual = restante.shift()
-    ordenado.push(actual)
-    last = actual
-
-    while (restante.length) {
-      restante.sort((a, b) => haversineKm(last, a) - haversineKm(last, b))
-      actual = restante.shift()
-      ordenado.push(actual)
-      last = actual
-    }
-  })
-
-  return ordenado
+  return zonas.flatMap((zona) =>
+    puntos.filter((d) => d.zona === zona).sort((a, b) => a.lng - b.lng),
+  )
 }

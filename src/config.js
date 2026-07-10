@@ -10,6 +10,13 @@ export const waLink = (mensaje = 'Hola, quiero sumarme a Comidas con propósito 
 
 export const igLink = `https://instagram.com/${CONTACTO.instagram}`
 
+// Instagram de cada aliado (logos de la sección 1 y el footer).
+export const IG_ALIADOS = {
+  caracas: 'https://www.instagram.com/caracascatering',
+  laga: 'https://www.instagram.com/laga.gastronomia/',
+  bocu: 'https://www.instagram.com/bocu.rest/',
+}
+
 // Video de fondo del hero, servido desde el bucket público `videos` (Supabase).
 const STORAGE_VIDEOS = 'https://dbrudbicfevcqwlopwid.supabase.co/storage/v1/object/public/videos'
 export const HERO_VIDEO = {
