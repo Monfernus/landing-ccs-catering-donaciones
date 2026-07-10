@@ -22,17 +22,21 @@ const GALERIA_COMPRESSION = {
   initialQuality: 0.82,
 }
 
+// Carpeta dentro del bucket `galeria` donde viven las fotos del carrusel de cierre.
+export const CARRUSEL_FOLDER = 'carrusel'
+
 // Ver docs/foto-heic-webp.md para el detalle del patrón HEIC→WebP.
-export async function uploadImagenGaleria(file) {
+// `folder` permite guardar dentro de una subcarpeta del bucket (p. ej. `carrusel`).
+export async function uploadImagenGaleria(file, folder = '') {
   const normalized = await normalizeHeic(file)
   const compressed = await imageCompression(normalized, GALERIA_COMPRESSION)
-  const name = `${crypto.randomUUID()}.webp`
-  const { error } = await supabase.storage.from('galeria').upload(name, compressed, {
+  const path = folder ? `${folder}/${crypto.randomUUID()}.webp` : `${crypto.randomUUID()}.webp`
+  const { error } = await supabase.storage.from('galeria').upload(path, compressed, {
     contentType: 'image/webp',
     cacheControl: '31536000',
     upsert: false,
   })
   if (error) throw error
-  const { data } = supabase.storage.from('galeria').getPublicUrl(name)
-  return { url: data.publicUrl, sizeKb: Math.round(compressed.size / 1024), name }
+  const { data } = supabase.storage.from('galeria').getPublicUrl(path)
+  return { url: data.publicUrl, sizeKb: Math.round(compressed.size / 1024), name: path }
 }

@@ -1,0 +1,385 @@
+/* ============================================================
+   Carga de fotos — carrusel · CCS.Catering
+   Sistema visual editorial (negro / verde acento)
+   ============================================================ */
+
+.subir {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(105, 189, 105, 0.12), transparent 60%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2rem);
+}
+
+.subir__inner {
+  width: 100%;
+  max-width: 640px;
+}
+
+/* ---------- encabezado ---------- */
+.subir__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: clamp(1.75rem, 5vw, 2.75rem);
+}
+.subir__brand img {
+  height: 34px;
+  width: auto;
+}
+.subir__brand-tag {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--brand-green);
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--border-strong);
+}
+
+.subir__title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 6vw, 2.9rem);
+  line-height: 1.02;
+  margin: 0 0 0.6rem;
+}
+.subir__title em {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  color: var(--brand-green);
+}
+.subir__lead {
+  color: var(--muted-foreground);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 1.75rem;
+  max-width: 46ch;
+}
+
+/* ---------- dropzone ---------- */
+.subir__drop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: clamp(2rem, 7vw, 3.25rem) 1.5rem;
+  border: 1.5px dashed var(--border-strong);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+}
+.subir__drop:hover,
+.subir__drop.is-drag {
+  border-color: var(--brand-green);
+  background: var(--brand-green-soft);
+}
+.subir__drop.is-drag {
+  transform: scale(1.01);
+}
+.subir__drop-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--brand-green);
+}
+.subir__drop-title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 1.15rem;
+  margin-top: 0.4rem;
+}
+.subir__drop-hint {
+  color: var(--subtle-foreground);
+  font-size: 0.92rem;
+}
+.subir__drop input {
+  display: none;
+}
+
+/* ---------- barra de acciones ---------- */
+.subir__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.subir__count {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  margin-right: auto;
+}
+.subir__count b {
+  color: var(--foreground);
+}
+
+.subir__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--foreground);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    transform 0.2s ease, opacity 0.2s ease;
+}
+.subir__btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.subir__btn--primary {
+  background: var(--brand-green);
+  border-color: var(--brand-green);
+  color: #06210b;
+}
+.subir__btn--primary:hover:not(:disabled) {
+  background: var(--brand-green-hover);
+  border-color: var(--brand-green-hover);
+}
+.subir__btn--ghost:hover:not(:disabled) {
+  border-color: var(--foreground);
+}
+.subir__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- grilla de items ---------- */
+.subir__grid {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.9rem;
+}
+.subir__card {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.subir__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.subir__card-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, #101010 30%, #1c1c1c 50%, #101010 70%);
+  background-size: 200% 100%;
+  animation: subir-shimmer 1.3s infinite linear;
+}
+@keyframes subir-shimmer {
+  to { background-position: -200% 0; }
+}
+
+/* overlay de estado */
+.subir__card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 0.55rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.subir__card:hover .subir__card-overlay {
+  opacity: 1;
+}
+.subir__card.is-ok .subir__card-overlay,
+.subir__card.is-error .subir__card-overlay,
+.subir__card.is-up .subir__card-overlay {
+  opacity: 1;
+}
+.subir__card-name {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.85);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* badge de estado (esquina) */
+.subir__badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.62rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+.subir__badge--pend { background: rgba(0, 0, 0, 0.55); color: #fff; }
+.subir__badge--up   { background: rgba(0, 0, 0, 0.6);  color: var(--brand-green); }
+.subir__badge--ok   { background: var(--brand-green);  color: #06210b; }
+.subir__badge--err  { background: #b42318; color: #fff; }
+
+.subir__spin {
+  width: 11px;
+  height: 11px;
+  border: 2px solid rgba(105, 189, 105, 0.35);
+  border-top-color: var(--brand-green);
+  border-radius: 50%;
+  animation: subir-spin 0.7s linear infinite;
+}
+@keyframes subir-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* botón quitar */
+.subir__remove {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+.subir__card:hover .subir__remove {
+  opacity: 1;
+}
+.subir__remove:hover {
+  background: #b42318;
+}
+
+/* ---------- toast de éxito global ---------- */
+.subir__done {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 12px;
+  background: var(--brand-green-soft);
+  border: 1px solid rgba(105, 189, 105, 0.4);
+  color: var(--foreground);
+  font-size: 0.98rem;
+}
+.subir__done svg {
+  color: var(--brand-green);
+  flex-shrink: 0;
+}
+
+/* ---------- pantalla de acceso ---------- */
+.subir--auth {
+  justify-content: center;
+}
+.subir__auth {
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+.subir__auth-emblem {
+  height: 56px;
+  width: auto;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+}
+.subir__auth h1 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.5rem;
+  margin: 0 0 0.4rem;
+}
+.subir__auth p {
+  color: var(--muted-foreground);
+  margin: 0 0 1.5rem;
+}
+.subir__field {
+  position: relative;
+  margin-bottom: 0.9rem;
+}
+.subir__input {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  font-size: 1rem;
+  font-family: var(--font-text);
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.subir__input::placeholder {
+  color: var(--subtle-foreground);
+}
+.subir__input:focus {
+  border-color: var(--brand-green);
+  background: rgba(105, 189, 105, 0.06);
+}
+.subir__input.is-error {
+  border-color: #e5544b;
+}
+.subir__auth .subir__btn {
+  width: 100%;
+  justify-content: center;
+  padding: 0.9rem;
+  font-size: 0.95rem;
+}
+.subir__error-msg {
+  color: #e5544b;
+  font-size: 0.88rem;
+  margin: 0 0 0.9rem;
+  min-height: 1.1em;
+}
+
+.subir__missing {
+  max-width: 460px;
+  text-align: center;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+.subir__missing code {
+  color: var(--brand-green);
+  font-family: ui-monospace, monospace;
+}

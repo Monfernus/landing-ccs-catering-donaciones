@@ -17,9 +17,10 @@ import {
   useIsMobile,
   useMetricasPublicas,
   useMapaDestinos,
+  useGaleriaCarrusel,
   ordenarPorProximidad,
 } from '../hooks'
-import { IMPACTO, BENEFICIARIOS, PASOS, FAQS, GALERIA_CARRUSEL } from '../data'
+import { IMPACTO, BENEFICIARIOS, PASOS, FAQS } from '../data'
 import { waLink, igLink, IG_ALIADOS, HERO_VIDEO, STORAGE_GALERIA } from '../config'
 
 const pinIcon = L.divIcon({
@@ -190,22 +191,40 @@ const DESTINO_ZOOM = 14
 
 function MapaDestinos({ destinos }) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [started, setStarted] = useState(false)
   const [mapReady, setMapReady] = useState(false)
   const mapRef = useRef(null)
 
   const ordenados = useMemo(() => ordenarPorProximidad(destinos, 'La Guaira'), [destinos])
   const active = ordenados[activeIndex]
 
+  const bounds = useMemo(
+    () => ordenados.map((d) => [Number(d.lat), Number(d.lng)]),
+    [ordenados]
+  )
+
   useEffect(() => {
     const map = mapRef.current
-    if (!map || !active || !mapReady) return
+    if (!map || !mapReady) return
+    if (!started) {
+      if (bounds.length) {
+        map.fitBounds(bounds, { padding: [50, 50], animate: true, duration: 0.9 })
+      }
+      return
+    }
+    if (!active) return
     map.flyTo([Number(active.lat), Number(active.lng)], DESTINO_ZOOM, { duration: 0.9 })
-  }, [active, mapReady])
+  }, [active, started, mapReady, bounds])
 
   if (!ordenados.length) return null
 
   const goTo = (delta) => {
     setActiveIndex((i) => (i + delta + ordenados.length) % ordenados.length)
+  }
+
+  const empezar = () => {
+    setActiveIndex(0)
+    setStarted(true)
   }
 
   return (
@@ -238,7 +257,7 @@ function MapaDestinos({ destinos }) {
           />
           {ordenados.map((d) => (
             <Marker key={d.id} position={[Number(d.lat), Number(d.lng)]} icon={pinIcon}>
-              {d.id === active.id && (
+              {started && d.id === active.id && (
                 <Tooltip
                   permanent
                   direction="top"
@@ -255,24 +274,36 @@ function MapaDestinos({ destinos }) {
         </MapContainer>
       </div>
 
-      <div className="impacto__map-nav">
-        <button
-          type="button"
-          className="impacto__map-nav-btn"
-          onClick={() => goTo(-1)}
-        >
-          <span className="impacto__map-nav-arrow" aria-hidden="true">←</span>
-          Volver
-        </button>
-        <button
-          type="button"
-          className="impacto__map-nav-btn"
-          onClick={() => goTo(1)}
-        >
-          Siguiente
-          <span className="impacto__map-nav-arrow" aria-hidden="true">→</span>
-        </button>
-      </div>
+      {started ? (
+        <div className="impacto__map-nav">
+          <button
+            type="button"
+            className="impacto__map-nav-btn"
+            onClick={() => goTo(-1)}
+          >
+            <span className="impacto__map-nav-arrow" aria-hidden="true">←</span>
+            Volver
+          </button>
+          <button
+            type="button"
+            className="impacto__map-nav-btn"
+            onClick={() => goTo(1)}
+          >
+            Siguiente
+            <span className="impacto__map-nav-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      ) : (
+        <div className="impacto__map-nav impacto__map-nav--start">
+          <button
+            type="button"
+            className="impacto__map-nav-btn impacto__map-nav-btn--start"
+            onClick={empezar}
+          >
+            Click acá para ver todos los puntos atendidos
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -518,7 +549,9 @@ export function Cierre() {
 
 /* ==================== GALERÍA (carrusel infinito) ==================== */
 function GaleriaCarrusel() {
-  const fotos = GALERIA_CARRUSEL.map((name) => `${STORAGE_GALERIA}/${name}`)
+  const nombres = useGaleriaCarrusel()
+  const fotos = nombres.map((name) => `${STORAGE_GALERIA}/carrusel/${name}`)
+  if (!fotos.length) return null
   const loop = [...fotos, ...fotos]
   return (
     <div className="galeria">

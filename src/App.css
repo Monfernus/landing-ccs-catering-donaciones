@@ -676,6 +676,21 @@ main {
     transform: translateX(3px);
   }
 }
+.impacto__map-nav--start {
+  padding-inline: 1rem;
+}
+.impacto__map-nav-btn--start {
+  background: var(--brand-green);
+  border-color: var(--brand-green);
+  color: #06210b;
+  text-align: center;
+  max-width: 100%;
+}
+@media (hover: hover) {
+  .impacto__map-nav-btn--start:hover {
+    filter: brightness(1.05);
+  }
+}
 
 /* ============================================================
    BENEFICIARIOS

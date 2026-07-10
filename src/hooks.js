@@ -152,6 +152,32 @@ export function useMapaDestinos() {
   return data
 }
 
+// Lista las fotos de la carpeta `carrusel/` del bucket público `galeria` y las
+// devuelve como nombres de archivo (sin el prefijo de carpeta). Se ordenan por
+// fecha de subida descendente para que las últimas cargadas aparezcan primero.
+export function useGaleriaCarrusel() {
+  const [fotos, setFotos] = useState([])
+
+  useEffect(() => {
+    let active = true
+    supabase.storage
+      .from('galeria')
+      .list('carrusel', { limit: 200, sortBy: { column: 'created_at', order: 'desc' } })
+      .then(({ data, error }) => {
+        if (!active || error || !data) return
+        const nombres = data
+          .filter((f) => f.name && /\.(webp|jpe?g|png)$/i.test(f.name))
+          .map((f) => f.name)
+        setFotos(nombres)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  return fotos
+}
+
 // Agrupa destinos por `zona` y recorre cada grupo de oeste a este (izquierda a
 // derecha en el mapa), para que el trazo nunca salte de una ciudad a otra y
 // vuelva. `zonaInicial` decide qué grupo se recorre primero; dentro de cada

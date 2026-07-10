@@ -117,25 +117,6 @@ export const FAQS = [
 
 export const ALIADOS = ['Caracas Catering', 'LAGA', 'BOCU']
 
-// Fotos del bucket `galeria` (Supabase) que aún no ilustran ninguna sección del
-// sitio — se muestran en el carrusel de cierre. Las que ya se usan en Operacion,
-// Beneficiarios, Motivacion y Formas (sections.jsx) quedan fuera de esta lista.
-export const GALERIA_CARRUSEL = [
-  'f6354877-ce44-4a80-9c09-494fc38f17a6.webp',
-  'c7780792-705f-41dc-85df-7154905c82ed.webp',
-  '7989df82-bb10-418d-bcb0-89888bc047f9.webp',
-  '5df4222c-9800-40d6-9254-dc4e5ce3a7eb.webp',
-  '1203ca3a-b747-45d7-9969-cbbedc5e3985.webp',
-  '47cb5b79-7f26-4f2f-85c9-df0c7325b139.webp',
-  '146c68dc-34c0-416e-a475-1e6f53dab140.webp',
-  '50c3ebf5-2197-46cb-ad71-ee2952cb1e42.webp',
-  '62ddaf80-e31f-45c2-aeb9-fc42b87cf51f.webp',
-  '5177f971-6883-42dc-8f15-18a44f56cfa0.webp',
-  'afd0dd7a-e8b6-4d52-adf4-8a06bdf0f4e2.webp',
-  'a59ea8ab-6922-4690-9761-b09a2a1778f1.webp',
-  '40be6719-3af0-4dc9-8164-6c94e54f3bf3.webp',
-  '234c6f0d-fc9e-4115-b9ed-fa14a11019c8.webp',
-  'ed42e8e6-9a5e-4b5f-b461-4274ddf0dbd4.webp',
-  'db16c487-558b-478a-a8e0-e100cb1f687e.webp',
-  '0aa59cd0-a12a-4e2b-bd0f-9fa9664e8290.webp',
-]
+// El carrusel de cierre lee sus fotos dinámicamente de la carpeta `galeria/carrusel`
+// del bucket público (ver useGaleriaCarrusel en hooks.js). Se cargan desde la
+// página /subir-fotos, así que aquí ya no se mantiene una lista fija.

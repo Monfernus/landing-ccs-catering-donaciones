@@ -1,9 +1,32 @@
-import { useEffect, useState } from 'react'
-import { isHeic, normalizeHeic, uploadImagenGaleria } from '../lib/imageUpload'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { isHeic, normalizeHeic, uploadImagenGaleria, CARRUSEL_FOLDER } from '../lib/imageUpload'
+import logoWhite from '../assets/logotipo-letter-white.png'
+import isotipoWhite from '../assets/isotipo-bg-black.png'
+import './SubirFotos.css'
 
 const SESSION_KEY = 'subir-fotos-auth'
 const UPLOAD_PASSWORD = import.meta.env.VITE_UPLOAD_PASSWORD
 
+/* ---------- iconos inline ---------- */
+function IconUpload(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"
+      strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M12 16V4M12 4l-4 4M12 4l4 4" />
+      <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+    </svg>
+  )
+}
+function IconCheck(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+      strokeLinecap="round" strokeLinejoin="round" width="20" height="20" {...props}>
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  )
+}
+
+/* ==================== PANTALLA DE ACCESO ==================== */
 function ClaveAcceso({ onOk }) {
   const [clave, setClave] = useState('')
   const [error, setError] = useState(false)
@@ -19,30 +42,36 @@ function ClaveAcceso({ onOk }) {
   }
 
   return (
-    <div style={{ maxWidth: 360, margin: '80px auto', padding: 24, fontFamily: 'sans-serif' }}>
-      <h1 style={{ fontSize: 18, marginBottom: 16 }}>Carga de fotos — acceso</h1>
-      <form onSubmit={submit}>
-        <input
-          type="password"
-          autoFocus
-          value={clave}
-          onChange={(e) => { setClave(e.target.value); setError(false) }}
-          placeholder="Clave"
-          style={{ width: '100%', padding: 10, fontSize: 16, boxSizing: 'border-box' }}
-        />
-        {error && <p style={{ color: 'crimson', fontSize: 13, marginTop: 8 }}>Clave incorrecta.</p>}
-        <button type="submit" style={{ marginTop: 12, width: '100%', padding: 10, fontSize: 16 }}>
-          Entrar
-        </button>
-      </form>
+    <div className="subir subir--auth">
+      <div className="subir__auth">
+        <img className="subir__auth-emblem" src={isotipoWhite} alt="Caracas Catering" />
+        <h1>Carga de fotos</h1>
+        <p>Introduce la clave para gestionar el carrusel.</p>
+        <form onSubmit={submit}>
+          <div className="subir__field">
+            <input
+              className={`subir__input ${error ? 'is-error' : ''}`}
+              type="password"
+              autoFocus
+              value={clave}
+              onChange={(e) => { setClave(e.target.value); setError(false) }}
+              placeholder="Clave de acceso"
+            />
+          </div>
+          <p className="subir__error-msg">{error ? 'Clave incorrecta. Intenta de nuevo.' : ''}</p>
+          <button type="submit" className="subir__btn subir__btn--primary">
+            Entrar
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
 
-function Item({ file, onDone }) {
+/* ==================== TARJETA DE FOTO ==================== */
+function Card({ item, onRemove }) {
+  const { file, status, result } = item
   const [preview, setPreview] = useState(null)
-  const [status, setStatus] = useState('pendiente') // pendiente | subiendo | ok | error
-  const [result, setResult] = useState(null)
 
   useEffect(() => {
     let revoke
@@ -60,82 +89,177 @@ function Item({ file, onDone }) {
     }
   }, [file])
 
-  async function subir() {
-    setStatus('subiendo')
-    try {
-      const r = await uploadImagenGaleria(file)
-      setResult(r)
-      setStatus('ok')
-      onDone?.(r)
-    } catch (err) {
-      setResult({ error: err.message })
-      setStatus('error')
-    }
-  }
+  const badge = {
+    pendiente: <span className="subir__badge subir__badge--pend">En cola</span>,
+    subiendo: <span className="subir__badge subir__badge--up"><span className="subir__spin" />Subiendo</span>,
+    ok: <span className="subir__badge subir__badge--ok"><IconCheck width="11" height="11" strokeWidth="3" />Lista</span>,
+    error: <span className="subir__badge subir__badge--err">Error</span>,
+  }[status]
 
   return (
-    <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #eee' }}>
-      {preview && <img src={preview} alt="" style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 6 }} />}
-      <div style={{ flex: 1, fontSize: 13 }}>
-        <div>{file.name}{isHeic(file) ? ' (HEIC → WebP)' : ''}</div>
-        <div style={{ color: '#666' }}>Original: {Math.round(file.size / 1024)} KB</div>
-        {status === 'ok' && (
-          <div style={{ color: 'green', wordBreak: 'break-all' }}>
-            ✓ Subida ({result.sizeKb} KB) — <a href={result.url} target="_blank" rel="noreferrer">{result.url}</a>
-          </div>
-        )}
-        {status === 'error' && <div style={{ color: 'crimson' }}>Error: {result.error}</div>}
+    <li className={`subir__card is-${status === 'subiendo' ? 'up' : status === 'ok' ? 'ok' : status === 'error' ? 'error' : 'pend'}`}>
+      {preview
+        ? <img src={preview} alt={file.name} />
+        : <div className="subir__card-skeleton" />}
+      {badge}
+      {status === 'pendiente' && (
+        <button
+          type="button"
+          className="subir__remove"
+          onClick={onRemove}
+          aria-label="Quitar foto"
+          title="Quitar"
+        >×</button>
+      )}
+      <div className="subir__card-overlay">
+        <span className="subir__card-name">
+          {status === 'error' ? (result?.error || 'Falló la subida') : file.name}
+        </span>
       </div>
-      <button onClick={subir} disabled={status === 'subiendo' || status === 'ok'} style={{ padding: '8px 14px' }}>
-        {status === 'subiendo' ? 'Subiendo…' : status === 'ok' ? 'Listo' : 'Subir'}
-      </button>
-    </div>
+    </li>
   )
 }
 
+/* ==================== UPLOADER ==================== */
 function Uploader() {
-  const [files, setFiles] = useState([])
-  const [urls, setUrls] = useState([])
+  const [items, setItems] = useState([])
+  const [dragging, setDragging] = useState(false)
+  const inputRef = useRef(null)
 
-  function onPick(e) {
-    setFiles([...files, ...Array.from(e.target.files || [])])
+  const addFiles = (fileList) => {
+    const nuevos = Array.from(fileList || []).map((file) => ({
+      id: `${file.name}-${file.size}-${file.lastModified}-${Math.round(file.size % 9973)}`,
+      file,
+      status: 'pendiente',
+      result: null,
+    }))
+    setItems((prev) => {
+      const vistos = new Set(prev.map((i) => i.id))
+      return [...prev, ...nuevos.filter((n) => !vistos.has(n.id))]
+    })
+  }
+
+  const onPick = (e) => {
+    addFiles(e.target.files)
     e.target.value = ''
   }
 
+  const onDrop = (e) => {
+    e.preventDefault()
+    setDragging(false)
+    addFiles(e.dataTransfer.files)
+  }
+
+  const removeItem = (id) =>
+    setItems((prev) => prev.filter((i) => i.id !== id))
+
+  const setStatus = (id, status, result = null) =>
+    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, status, result } : i)))
+
+  const subirUno = async (item) => {
+    setStatus(item.id, 'subiendo')
+    try {
+      const r = await uploadImagenGaleria(item.file, CARRUSEL_FOLDER)
+      setStatus(item.id, 'ok', r)
+    } catch (err) {
+      setStatus(item.id, 'error', { error: err.message })
+    }
+  }
+
+  const subirTodas = async () => {
+    const pendientes = items.filter((i) => i.status === 'pendiente' || i.status === 'error')
+    for (const item of pendientes) {
+      // eslint-disable-next-line no-await-in-loop
+      await subirUno(item)
+    }
+  }
+
+  const stats = useMemo(() => {
+    const total = items.length
+    const ok = items.filter((i) => i.status === 'ok').length
+    const pend = items.filter((i) => i.status === 'pendiente' || i.status === 'error').length
+    const subiendo = items.some((i) => i.status === 'subiendo')
+    return { total, ok, pend, subiendo }
+  }, [items])
+
   return (
-    <div style={{ maxWidth: 640, margin: '40px auto', padding: 24, fontFamily: 'sans-serif' }}>
-      <h1 style={{ fontSize: 18, marginBottom: 4 }}>Carga de fotos — galería (provisional)</h1>
-      <p style={{ fontSize: 13, color: '#666', marginBottom: 16 }}>
-        Selecciona una o varias fotos (HEIC/JPG/PNG). Se convierten a WebP y se suben al bucket público
-        <code> galeria</code>. Copia la URL resultante para usarla en el código de la landing.
-      </p>
-      <label style={{ display: 'block', border: '2px dashed #ccc', borderRadius: 8, padding: 24, textAlign: 'center', cursor: 'pointer', marginBottom: 16 }}>
-        📷 Elegir imágenes
-        <input
-          type="file"
-          multiple
-          accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"
-          onChange={onPick}
-          style={{ display: 'none' }}
-        />
-      </label>
-      {files.map((f, i) => (
-        <Item
-          key={`${f.name}-${i}`}
-          file={f}
-          onDone={(r) => setUrls((u) => [...u, r.url])}
-        />
-      ))}
-      {urls.length > 0 && (
-        <div style={{ marginTop: 20 }}>
-          <h2 style={{ fontSize: 14 }}>URLs subidas</h2>
-          <textarea
-            readOnly
-            value={urls.join('\n')}
-            style={{ width: '100%', height: 100, fontSize: 12, fontFamily: 'monospace' }}
-          />
+    <div className="subir">
+      <div className="subir__inner">
+        <div className="subir__brand">
+          <img src={logoWhite} alt="Caracas Catering" />
+          <span className="subir__brand-tag">Carrusel</span>
         </div>
-      )}
+
+        <h1 className="subir__title">
+          Sube fotos al <em>carrusel</em>
+        </h1>
+        <p className="subir__lead">
+          Las imágenes se optimizan a WebP y aparecen automáticamente en el carrusel de la
+          landing. Las más recientes se muestran primero.
+        </p>
+
+        <label
+          className={`subir__drop ${dragging ? 'is-drag' : ''}`}
+          onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={onDrop}
+        >
+          <IconUpload className="subir__drop-icon" />
+          <span className="subir__drop-title">Arrastra tus fotos aquí</span>
+          <span className="subir__drop-hint">o haz clic para elegir · JPG · PNG · HEIC</span>
+          <input
+            ref={inputRef}
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"
+            onChange={onPick}
+          />
+        </label>
+
+        {items.length > 0 && (
+          <>
+            <div className="subir__bar">
+              <span className="subir__count">
+                <b>{stats.ok}</b> subidas · <b>{stats.pend}</b> en cola
+              </span>
+              {stats.pend > 0 && (
+                <button
+                  type="button"
+                  className="subir__btn subir__btn--ghost"
+                  onClick={() => setItems((prev) => prev.filter((i) => i.status !== 'pendiente'))}
+                  disabled={stats.subiendo}
+                >
+                  Limpiar cola
+                </button>
+              )}
+              <button
+                type="button"
+                className="subir__btn subir__btn--primary"
+                onClick={subirTodas}
+                disabled={stats.subiendo || stats.pend === 0}
+              >
+                {stats.subiendo ? 'Subiendo…' : `Subir ${stats.pend > 0 ? stats.pend : ''} ${stats.pend === 1 ? 'foto' : 'fotos'}`}
+              </button>
+            </div>
+
+            <ul className="subir__grid">
+              {items.map((item) => (
+                <Card key={item.id} item={item} onRemove={() => removeItem(item.id)} />
+              ))}
+            </ul>
+
+            {stats.total > 0 && stats.pend === 0 && !stats.subiendo && (
+              <div className="subir__done">
+                <IconCheck />
+                <span>
+                  ¡Listo! {stats.ok} {stats.ok === 1 ? 'foto está' : 'fotos están'} en el carrusel.
+                  Recarga la landing para verlas.
+                </span>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -145,8 +269,10 @@ export default function SubirFotos() {
 
   if (!UPLOAD_PASSWORD) {
     return (
-      <div style={{ maxWidth: 480, margin: '80px auto', padding: 24, fontFamily: 'sans-serif' }}>
-        Falta configurar <code>VITE_UPLOAD_PASSWORD</code> en el entorno.
+      <div className="subir subir--auth">
+        <p className="subir__missing">
+          Falta configurar <code>VITE_UPLOAD_PASSWORD</code> en el entorno.
+        </p>
       </div>
     )
   }
