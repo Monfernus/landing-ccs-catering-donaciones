@@ -10,6 +10,7 @@ import logoBocu from '../assets/logo bocu PRINCIPAL.png'
 import logoCaracasCateringWhite from '../assets/logo-comidas-proposito-white-trim.png'
 import logoLagaWhite from '../assets/LOGO_LAGA-Horizontal-white-trim.png'
 import logoBocuWhite from '../assets/logo-bocu-white-trim.png'
+import logoWck from '../assets/World_Central_Kitchen_logo.svg'
 import { Cta, SectionTag, Dot, WhatsAppIcon } from './ui'
 import {
   useReveal,
@@ -130,10 +131,16 @@ export function Operacion() {
               Junto a nuestros aliados, recibimos donaciones, preparamos alimentos y
               coordinamos su entrega de forma <span className="ital">organizada, segura y transparente.</span>
             </p>
+            <p className="lead lead--muted">
+              En esta operación también nos unimos en alianza con World Central Kitchen,
+              organización internacional con amplia trayectoria en respuesta alimentaria ante
+              emergencias. Su experiencia nos ayuda a fortalecer los criterios nutricionales de
+              las comidas que servimos y a coordinar parte de las entregas en los puntos de atención.
+            </p>
           </div>
           <div className="operacion__media">
             <img
-              src="https://dbrudbicfevcqwlopwid.supabase.co/storage/v1/object/public/galeria/77ab38a0-a685-4ab1-a357-34e95ab6bf78.webp"
+              src="https://dbrudbicfevcqwlopwid.supabase.co/storage/v1/object/public/galeria/3cdd9e20-d888-4157-91ea-2dd0bf33868b.webp"
               alt="Operación de Comidas con propósito"
               loading="lazy"
             />
@@ -153,6 +160,9 @@ export function Operacion() {
                 <a href={IG_ALIADOS.bocu} target="_blank" rel="noopener noreferrer" aria-label="Instagram de BOCU">
                   <img className="ally-logo ally-logo--bocu" src={logoBocu} alt="BOCU" />
                 </a>
+                <a href={IG_ALIADOS.wck} target="_blank" rel="noopener noreferrer" aria-label="Instagram de World Central Kitchen">
+                  <img className="ally-logo ally-logo--wck" src={logoWck} alt="World Central Kitchen" />
+                </a>
               </div>
               <div className="allies__group" aria-hidden="true">
                 <a href={IG_ALIADOS.caracas} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
@@ -163,6 +173,9 @@ export function Operacion() {
                 </a>
                 <a href={IG_ALIADOS.bocu} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
                   <img className="ally-logo ally-logo--bocu" src={logoBocu} alt="" />
+                </a>
+                <a href={IG_ALIADOS.wck} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
+                  <img className="ally-logo ally-logo--wck" src={logoWck} alt="" />
                 </a>
               </div>
             </div>
@@ -351,7 +364,7 @@ export function Beneficiarios() {
         <div className="beneficiarios__grid">
           <div className="beneficiarios__media">
             <img
-              src="https://dbrudbicfevcqwlopwid.supabase.co/storage/v1/object/public/galeria/35f0c4cc-d130-4673-8313-97a26c2de77f.webp"
+              src="https://dbrudbicfevcqwlopwid.supabase.co/storage/v1/object/public/galeria/b3ddeb05-53b3-4692-b05f-b45f645d9997.webp"
               alt="A quién ayudamos"
               loading="lazy"
             />
@@ -594,6 +607,9 @@ export function Footer() {
           </a>
           <a href={IG_ALIADOS.bocu} target="_blank" rel="noopener noreferrer" aria-label="Instagram de BOCU">
             <img className="ally-logo ally-logo--bocu" src={logoBocuWhite} alt="BOCU" />
+          </a>
+          <a href={IG_ALIADOS.wck} target="_blank" rel="noopener noreferrer" aria-label="Instagram de World Central Kitchen">
+            <img className="ally-logo ally-logo--wck" src={logoWck} alt="World Central Kitchen" />
           </a>
         </div>
 

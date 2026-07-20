@@ -15,6 +15,7 @@ export const IG_ALIADOS = {
   caracas: 'https://www.instagram.com/caracascatering',
   laga: 'https://www.instagram.com/laga.gastronomia/',
   bocu: 'https://www.instagram.com/bocu.rest/',
+  wck: 'https://www.instagram.com/wckitchen/',
 }
 
 // Video de fondo del hero, servido desde el bucket público `videos` (Supabase).
