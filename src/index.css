@@ -25,7 +25,7 @@
 
   /* Tipografía — equivalentes web de Knockout / Editorial New / DIN 2014 Narrow */
   --font-display: "Oswald", "Knockout", "Bebas Neue", system-ui, sans-serif;
-  --font-italic: "Fraunces", "Editorial New", Georgia, serif;
+  --font-italic: "Instrument Serif", "Editorial New", Georgia, serif;
   --font-text: "Barlow Condensed", "DIN 2014 Narrow", "DIN Pro Condensed",
     system-ui, sans-serif;
   --font-sans: var(--font-text);

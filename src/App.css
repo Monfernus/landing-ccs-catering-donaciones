@@ -467,6 +467,9 @@ main {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
   margin-top: clamp(1.5rem, 3vw, 2.2rem);
 }
+.lead--spaced {
+  margin-top: clamp(1.5rem, 3vw, 2.2rem);
+}
 .operacion {
   padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
 }

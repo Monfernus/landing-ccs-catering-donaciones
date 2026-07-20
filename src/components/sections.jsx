@@ -127,12 +127,12 @@ export function Operacion() {
               y nuestra capacidad operativa al servicio de las personas afectadas y de quienes
               trabajan incansablemente en las labores de rescate.
             </p>
-            <p className="lead lead--muted">
+            <p className="lead lead--spaced">
               Junto a nuestros aliados, recibimos donaciones, preparamos alimentos y
               coordinamos su entrega de forma <span className="ital">organizada, segura y transparente.</span>
             </p>
-            <p className="lead lead--muted">
-              En esta operación también nos unimos en alianza con World Central Kitchen,
+            <p className="lead lead--spaced">
+              En esta operación también nos unimos en alianza con <strong>World Central Kitchen</strong>,
               organización internacional con amplia trayectoria en respuesta alimentaria ante
               emergencias. Su experiencia nos ayuda a fortalecer los criterios nutricionales de
               las comidas que servimos y a coordinar parte de las entregas en los puntos de atención.
@@ -497,7 +497,7 @@ function FaqItem({ q, a, open, onToggle }) {
 }
 
 export function Faq() {
-  const [open, setOpen] = useState(0)
+  const [open, setOpen] = useState(-1)
   const [ref, shown] = useReveal()
   return (
     <section className="section section--paper faqs">
