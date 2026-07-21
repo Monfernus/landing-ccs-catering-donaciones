@@ -96,7 +96,7 @@ export function Hero() {
         </h1>
 
         <div className="hero__cta d5">
-          <Cta variant="white" mensaje="Hola, quiero convertir mi aporte en ayuda con Comidas con propósito.">
+          <Cta variant="white" origen="hero" mensaje="Hola, quiero convertir mi aporte en ayuda con Comidas con propósito.">
             Convierte tu aporte en ayuda
           </Cta>
         </div>
@@ -244,7 +244,7 @@ function MapaDestinos({ destinos }) {
     <div className="impacto__map-wrap">
       <div className="impacto__map-inner">
         <div className="impacto__map-cta">
-          <Cta mensaje="Hola, quiero sumarme a la operación de Comidas con propósito.">
+          <Cta origen="mapa" mensaje="Hola, quiero sumarme a la operación de Comidas con propósito.">
             Súmate a la operación
           </Cta>
         </div>
@@ -467,6 +467,7 @@ export function ComoFunciona() {
         <div className="section__cta">
           <Cta
             variant="dark"
+            origen="pasos"
             mensaje="Hola, quiero ayudar a que Comidas con propósito llegue más lejos."
           >
             Ayúdanos a llegar más lejos
@@ -522,6 +523,7 @@ export function Faq() {
         <div className="section__cta">
           <Cta
             variant="dark"
+            origen="faq"
             mensaje="Hola, quiero unirme a la iniciativa Comidas con propósito."
           >
             Únete a esta iniciativa
@@ -551,6 +553,7 @@ export function Cierre() {
         <GaleriaCarrusel />
         <Cta
           variant="onGreen"
+          origen="cierre"
           mensaje="Hola, quiero ser parte de la respuesta de Comidas con propósito."
         >
           Sé parte de la respuesta

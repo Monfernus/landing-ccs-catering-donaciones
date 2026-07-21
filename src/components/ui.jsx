@@ -1,4 +1,5 @@
 import { waLink } from '../config'
+import { registrarClicWhatsapp } from '../lib/tracking'
 
 // Ícono WhatsApp (glyph oficial simplificado).
 export function WhatsAppIcon({ size = 20 }) {
@@ -10,12 +11,13 @@ export function WhatsAppIcon({ size = 20 }) {
 }
 
 // Botón CTA — todos redirigen a WhatsApp.
-export function Cta({ children, mensaje, variant = 'solid', className = '' }) {
+export function Cta({ children, mensaje, variant = 'solid', className = '', origen = 'general' }) {
   return (
     <a
       href={waLink(mensaje)}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => registrarClicWhatsapp(origen)}
       className={`cta cta--${variant} ${className}`}
     >
       <WhatsAppIcon size={18} />
