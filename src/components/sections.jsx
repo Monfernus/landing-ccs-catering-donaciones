@@ -87,7 +87,7 @@ export function Hero() {
           <span className="hero__eyebrow-text">
             Comidas con propósito <span className="hero__eyebrow-sep">·</span>
             <br className="mobile-break" />
-            <span className="ital"> una iniciativa de Caracas Catering</span>
+            <span className="ital"> una iniciativa de Caracas Catering junto a LAGA</span>
           </span>
         </p>
 
